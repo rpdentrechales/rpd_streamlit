@@ -11,7 +11,7 @@ visualizar_page = st.Page(
 # --- NAVIGATION SETUP [WITH SECTIONS]---
 pg = st.navigation(
     {
-        "Pages": [visualisar_page]
+        "Pages": [visualizar_page]
     }
 )
 
