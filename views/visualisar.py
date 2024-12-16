@@ -6,8 +6,6 @@ import plotly.express as px
 
 st.set_page_config(page_title="Pró-Corpo - Visualizar Vendas", page_icon="💎",layout="wide")
 
-st.title("Visualizar Vendas")
-
 url_parameters = st.query_params
 error_page = True
 
