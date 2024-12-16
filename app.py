@@ -4,14 +4,13 @@ import streamlit as st
 visualizar_page = st.Page(
     "views/visualisar.py",
     title="Visualizar Vendas",
-    icon=":material/point_of_sale:",
-    default=True,
+    icon=":material/point_of_sale:"
 )
 configurar_page = st.Page(
     "views/configurar_vendedoras.py",
     title="Configurar Vendedoras",
     icon=":material/manufacturing:",
-    default=True,
+    default=True
 )
 
 # --- NAVIGATION SETUP [WITH SECTIONS]---
