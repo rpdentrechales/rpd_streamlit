@@ -17,7 +17,7 @@ if "id" in url_parameters:
   nome_vendedora = vendedoras_df["nome_vendedora"].iloc[0]
 
   if nome_vendedora:
-    query = {"nome_vendedora": nome_vendedora}
+    query = {"created_by": nome_vendedora}
 
     billcharges_vendedoras_df = get_dataframe_from_mongodb(collection_name="billcharges_db", database_name="dash_midia",query=query)
     st.title(f"Vendas da Vendedora: {nome_vendedora}") 
