@@ -8,8 +8,8 @@ st.set_page_config(page_title="Pró-Corpo - Visualizar Vendas", page_icon="💎"
 
 st.title("Visualizar Vendas")
 
-vendedoras_df = get_dataframe_from_mongodb("vendedoras", "rpd_database")
-billcharges_df = get_dataframe_from_mongodb("billcharges", "rpd_database")
+vendedoras_df = get_dataframe_from_mongodb(collection_name="dados_vendedoras", database_name="rpd_db")
+billcharges_df = get_dataframe_from_mongodb(collection_name="billcharges_db", database_name="dash_midia")
 
 st.dataframe(vendedoras_df)
 st.dataframe(billcharges_df)
