@@ -22,10 +22,10 @@ if "id" in url_parameters:
     query = {"nome_vendedora": nome_vendedora}
 
     billcharges_vendedoras_df = get_dataframe_from_mongodb(collection_name="billcharges_db", database_name="dash_midia",query=query)
-    st.tittle(f"Vendas da Vendedora: {nome_vendedora}") 
+    st.title(f"Vendas da Vendedora: {nome_vendedora}") 
     st.dataframe(billcharges_vendedoras_df)
 
     error_page = False
 
 if error_page:
-  st.tittle("Página não encontrada")
+  st.title("Página não encontrada")
