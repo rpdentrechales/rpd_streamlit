@@ -15,4 +15,4 @@ vendedora_selecionada = st.selectbox("Selecione uma Vendedora", nome_das_vendedo
 
 id_vendedora = vendedoras_df.loc[vendedoras_df["nome_vendedora"] == vendedora_selecionada, "id_vendedora"].values[0]
 
-st.markdown(f'[Abrir site da vendedora](https://rpd-procorpo.streamlit.app/visualisar?id={id_vendedora})')
+st.markdown(f'[Abrir site da vendedora](https://rpd-visualizar.streamlit.app//visualisar?id={id_vendedora})')
