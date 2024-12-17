@@ -23,7 +23,7 @@ if "id" in url_parameters:
     st.title("Visualizar Vendas")
     st.write(f"Olá, {nome_vendedora}")
     
-    billcharges_vendedoras_df["due_at"] = datetime.strptime(billcharges_vendedoras_df['due_at'], "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d")
+    billcharges_vendedoras_df["due_at"] = pd.to_datetime(billcharges_vendedoras_df['due_at'], format="%Y-%m-%d %H:%M:%S").dt.strftime("%Y-%m-%d")
     billcharges_vendedoras_df['due_at'] = pd.to_datetime(billcharges_vendedoras_df['due_at'])
     billcharges_vendedoras_df['date'] = pd.to_datetime(billcharges_vendedoras_df['date'])
     billcharges_vendedoras_df['avista'] = billcharges_vendedoras_df.apply(lambda row: row['amount'] if row['due_at'] == row['date'] else 0, axis=1)
