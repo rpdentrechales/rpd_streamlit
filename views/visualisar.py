@@ -57,7 +57,7 @@ if "id" in url_parameters:
                     format="R$%d",
                     )
                   }
-    billcharges_vendedoras_df["formatted_date"] = pd.to_datetime(billcharges_vendedoras_df["formatted_date"])
+
     sorted_dates = billcharges_vendedoras_df["formatted_date"].sort_values(ascending=False).dt.strftime("%d/%m/%Y").unique()
     seletor_dia = st.selectbox("Selecione um dia", sorted_dates)
     
