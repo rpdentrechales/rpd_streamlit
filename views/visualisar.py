@@ -32,6 +32,8 @@ if "id" in url_parameters:
     
     st.dataframe(billcharges_vendedoras_df)
 
+    st.dataframe(groupby_quote)
+
     error_page = False
 
 if error_page:
