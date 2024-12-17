@@ -30,7 +30,7 @@ if "id" in url_parameters:
 
     groupby_quote = billcharges_vendedoras_df.groupby(['quote_id','customer_id']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
     
-    st.dataframe(groupby_quote)
+    st.dataframe(billcharges_vendedoras_df)
 
     error_page = False
 
