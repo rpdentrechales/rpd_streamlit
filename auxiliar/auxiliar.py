@@ -23,21 +23,13 @@ def get_dataframe_from_mongodb(collection_name, database_name, query={}):
     return dataframe
 
 def plot_sales_count(df):
-    """
-    Plots a bar chart for Sales Count per day.
-    """
-    # Ensure 'date' is in datetime format
     df['date'] = pd.to_datetime(df['date'])
-
-    # Format date to show only dd/mm/yyyy
     df['formatted_date'] = df['date'].dt.strftime('%d/%m/%Y')
 
-    # Group data by 'formatted_date'
     daily_metrics = df.groupby('formatted_date').agg(
         sales_count=('quote_id', 'nunique')
     ).reset_index()
 
-    # Create the Sales Count bar chart
     fig = go.Figure()
     fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
@@ -52,28 +44,18 @@ def plot_sales_count(df):
         xaxis=dict(tickangle=-45)
     )
 
-    # Display in Streamlit
-    st.subheader("Sales Count")
     st.plotly_chart(fig, use_container_width=True)
 
-
 def plot_total_sales(df):
-    """
-    Plots a grouped bar chart for Total Sales and Total Sales Avista per day.
-    """
-    # Ensure 'date' is in datetime format
-    df['date'] = pd.to_datetime(df['date'])
 
-    # Format date to show only dd/mm/yyyy
+    df['date'] = pd.to_datetime(df['date'])
     df['formatted_date'] = df['date'].dt.strftime('%d/%m/%Y')
 
-    # Group data by 'formatted_date'
     daily_metrics = df.groupby('formatted_date').agg(
         total_sales=('amount', 'sum'),
         total_sales_avista=('avista', 'sum')
     ).reset_index()
 
-    # Create the Total Sales and Avista Sales bar chart
     fig = go.Figure()
     fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
@@ -92,9 +74,7 @@ def plot_total_sales(df):
         xaxis_title="Date",
         yaxis_title="Total Sales",
         xaxis=dict(tickangle=-45),
-        barmode='group'  # Grouped bars
+        barmode='group' 
     )
 
-    # Display in Streamlit
-    st.subheader("Total Sales and Total Sales Avista")
     st.plotly_chart(fig, use_container_width=True)
