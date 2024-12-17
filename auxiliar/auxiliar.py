@@ -2,6 +2,7 @@ from pymongo import MongoClient, UpdateOne
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+import plotly.graph_objects as go
 
 @st.cache_data
 def get_dataframe_from_mongodb(collection_name, database_name, query={}):
@@ -22,37 +23,52 @@ def get_dataframe_from_mongodb(collection_name, database_name, query={}):
     return dataframe
 
 def plot_daily_sales_metrics(df):
+    # Ensure 'date' is in datetime format
     df['date'] = pd.to_datetime(df['date'])
 
+    # Group data by 'date'
     daily_metrics = df.groupby('date').agg(
         sales_count=('quote_id', 'nunique'),
         total_sales=('amount', 'sum'),
         total_sales_avista=('avista', 'sum')
     ).reset_index()
 
-    metrics_long = daily_metrics.melt(
-        id_vars='date',
-        value_vars=['sales_count', 'total_sales', 'total_sales_avista'],
-        var_name='Metric',
-        value_name='Value'
-    )
+    # Create the figure
+    fig = go.Figure()
 
-    # Create the bar chart
-    fig = px.bar(
-        metrics_long,
-        x='date',
-        y=daily_metrics['sales_count'],
-        color='Metric',
-        title="Daily Sales Metrics",
-        barmode='group'
-    )
-
-    # Add a line overlay for total sales
-    fig.add_scatter(
+    # Add sales_count as bar chart
+    fig.add_trace(go.Bar(
         x=daily_metrics['date'], 
-        y=daily_metrics['total_sales','total_sales_avista'], 
+        y=daily_metrics['sales_count'], 
+        name='Sales Count',
+        marker_color='blue'
+    ))
+
+    # Add total_sales as line
+    fig.add_trace(go.Scatter(
+        x=daily_metrics['date'], 
+        y=daily_metrics['total_sales'], 
         mode='lines+markers', 
-        name='Total Sales (Line)'
+        name='Total Sales',
+        line=dict(color='green')
+    ))
+
+    # Add total_sales_avista as line
+    fig.add_trace(go.Scatter(
+        x=daily_metrics['date'], 
+        y=daily_metrics['total_sales_avista'], 
+        mode='lines+markers', 
+        name='Total Sales Avista',
+        line=dict(color='orange')
+    ))
+
+    # Update layout
+    fig.update_layout(
+        title="Daily Sales Metrics",
+        xaxis_title="Date",
+        yaxis_title="Value",
+        barmode='group',
+        legend=dict(x=0, y=1.0),
     )
 
     # Display the chart in Streamlit
