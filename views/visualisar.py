@@ -57,8 +57,9 @@ if "id" in url_parameters:
                     format="R$%d",
                     )
                   }
-
-    seletor_dia = st.selectbox("Selecione um dia", billcharges_vendedoras_df["formatted_date"].unique())
+    billcharges_vendedoras_df["formatted_date"] = pd.to_datetime(billcharges_vendedoras_df["formatted_date"])
+    sorted_dates = billcharges_vendedoras_df["formatted_date"].sort_values(ascending=False).dt.strftime("%d/%m/%Y").unique()
+    seletor_dia = st.selectbox("Selecione um dia", sorted_dates)
     
     resumo_1, resumo_2 = st.columns([3,1])
 
@@ -75,8 +76,8 @@ if "id" in url_parameters:
       total_vendas_dia = groupby_quote_dia["quote_id"].count()
 
       st.metric(label="Quantidade de vendas", value=total_vendas_dia)
-      st.metric(label="Vendas Total (R$)", value=f"R$ {total_sales_dia}")
-      st.metric(label="Vendas à vista (R$)", value=f"R$ {total_avista_dia}")
+      st.metric(label="Vendas Total (R$)", value=f"R$ {total_sales_dia:,.2f}")
+      st.metric(label="Vendas à vista (R$)", value=f"R$ {total_avista_dia:,.2f}")
       
 
 
