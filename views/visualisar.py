@@ -27,10 +27,14 @@ if "id" in url_parameters:
     billcharges_vendedoras_df["due_at"] = pd.to_datetime(billcharges_vendedoras_df['due_at'], format="%Y-%m-%d %H:%M:%S").dt.strftime("%Y-%m-%d")
     billcharges_vendedoras_df['due_at'] = pd.to_datetime(billcharges_vendedoras_df['due_at'])
     billcharges_vendedoras_df['date'] = pd.to_datetime(billcharges_vendedoras_df['date'])
+    billcharges_vendedoras_df['period'] = billcharges_vendedoras_df['date'].dt.strftime('%m/%Y')
     billcharges_vendedoras_df['avista'] = billcharges_vendedoras_df.apply(lambda row: row['amount'] if row['due_at'] == row['date'] else 0, axis=1)
 
     billcharges_vendedoras_df["quote_id"] = billcharges_vendedoras_df["quote_id"].astype(str)
     billcharges_vendedoras_df["customer_id"] = billcharges_vendedoras_df["customer_id"].astype(str)
+    
+    seletor_mes = st.selectbox("Selecione um mês", billcharges_vendedoras_df["period"].unique())
+    billcharges_vendedoras_df = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["period"] == seletor_mes]
 
     groupby_quote = billcharges_vendedoras_df.groupby(['quote_id','customer_id']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
     
