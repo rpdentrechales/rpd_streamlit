@@ -29,7 +29,7 @@ def plot_daily_sales_metrics(df):
     # Format date to show only dd/mm/yyyy
     df['formatted_date'] = df['date'].dt.strftime('%d/%m/%Y')
 
-    # Group data by 'date'
+    # Group data by 'formatted_date'
     daily_metrics = df.groupby('formatted_date').agg(
         sales_count=('quote_id', 'nunique'),
         total_sales=('amount', 'sum'),
@@ -39,22 +39,22 @@ def plot_daily_sales_metrics(df):
     # Create the figure
     fig = go.Figure()
 
-    # Add total_sales as a line (left axis)
-    fig.add_trace(go.Scatter(
+    # Add total_sales as bars (left axis)
+    fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
         y=daily_metrics['total_sales'],
-        mode='lines+markers',
         name='Total Sales',
-        line=dict(color='green')
+        marker_color='green',
+        yaxis='y'
     ))
 
-    # Add total_sales_avista as a line (left axis)
-    fig.add_trace(go.Scatter(
+    # Add total_sales_avista as bars (left axis)
+    fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
         y=daily_metrics['total_sales_avista'],
-        mode='lines+markers',
         name='Total Sales Avista',
-        line=dict(color='orange')
+        marker_color='orange',
+        yaxis='y'
     ))
 
     # Add sales_count as bars (right axis)
@@ -63,17 +63,14 @@ def plot_daily_sales_metrics(df):
         y=daily_metrics['sales_count'],
         name='Sales Count',
         marker_color='blue',
-        yaxis='y2'  # Map to the secondary y-axis
+        yaxis='y2'
     ))
 
-    # Update layout to include a secondary y-axis
+    # Update layout for dual y-axis
     fig.update_layout(
         title="Daily Sales Metrics",
         xaxis_title="Date",
-        xaxis=dict(
-            type='category',  # Ensure dates appear as categorical labels
-            tickangle=-45     # Rotate labels for better readability
-        ),
+        xaxis=dict(type='category', tickangle=-45),
         yaxis=dict(
             title="Total Sales and Total Sales Avista",
             side="left"
@@ -84,7 +81,7 @@ def plot_daily_sales_metrics(df):
             side="right",
             showgrid=False
         ),
-        barmode='group',
+        barmode='group',  # Group bars
         legend=dict(x=0, y=1.0)
     )
 
