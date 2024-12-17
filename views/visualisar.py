@@ -59,9 +59,9 @@ if "id" in url_parameters:
                   }
 
     seletor_dia = st.selectbox("Selecione um dia", billcharges_vendedoras_df["formatted_date"].unique())
-    billcharges_vendedoras_df = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["formatted_date"] == seletor_dia]
-    colunas = ['quote_id','customer_id',"amount","avista"]
-    st.dataframe(billcharges_vendedoras_df[colunas],hide_index=True,use_container_width=True,column_config=column_config)
+    billcharges_vendedoras_df_dia = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["formatted_date"] == seletor_dia]
+    groupby_quote_dia = billcharges_vendedoras_df_dia.groupby(['quote_id','customer_id']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
+    st.dataframe(groupby_quote_dia,hide_index=True,use_container_width=True,column_config=column_config)
 
     error_page = False
 
