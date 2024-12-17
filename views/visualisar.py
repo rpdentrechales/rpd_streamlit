@@ -20,8 +20,17 @@ if "id" in url_parameters:
     query = {"created_by": nome_vendedora}
 
     billcharges_vendedoras_df = get_dataframe_from_mongodb(collection_name="billcharges_db", database_name="dash_midia",query=query)
-    st.title(f"Vendas da Vendedora: {nome_vendedora}") 
-    st.dataframe(billcharges_vendedoras_df)
+    st.title("Visualizar Vendas")
+    st.write(f"Olá, {nome_vendedora}")
+    
+    billcharges_vendedoras_df["due_at"] = datetime.strptime(billcharges_vendedoras_df['due_at'], "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d")
+    billcharges_vendedoras_df['due_at'] = pd.to_datetime(billcharges_vendedoras_df['due_at'])
+    billcharges_vendedoras_df['date'] = pd.to_datetime(billcharges_vendedoras_df['date'])
+    billcharges_vendedoras_df['avista'] = billcharges_vendedoras_df.apply(lambda row: row['amount'] if row['due_at'] == row['date'] else 0, axis=1)
+
+    groupby_quote = billcharges_vendedoras_df.groupby(['quote_id','customer_id']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
+    
+    st.dataframe(groupby_quote)
 
     error_page = False
 
