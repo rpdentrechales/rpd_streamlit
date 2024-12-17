@@ -34,13 +34,13 @@ def plot_sales_count(df):
     fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
         y=daily_metrics['sales_count'],
-        name='Sales Count',
+        name='Quantidade de Vendas',
         marker_color='blue'
     ))
     fig.update_layout(
-        title="Daily Sales Count",
-        xaxis_title="Date",
-        yaxis_title="Sales Count",
+        title="Quantidade de vendas por dia",
+        xaxis_title="Dia",
+        yaxis_title="Quantidade de vendas",
         xaxis=dict(tickangle=-45)
     )
 
@@ -60,19 +60,19 @@ def plot_total_sales(df):
     fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
         y=daily_metrics['total_sales'],
-        name='Total Sales',
+        name='Total de Vendas (R$)',
         marker_color='green'
     ))
     fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
         y=daily_metrics['total_sales_avista'],
-        name='Total Sales Avista',
+        name='Total Vendas Avista (R$)',
         marker_color='orange'
     ))
     fig.update_layout(
-        title="Daily Total Sales and Total Sales Avista",
-        xaxis_title="Date",
-        yaxis_title="Total Sales",
+        title="Valor vendido por dia (total e à vista)",
+        xaxis_title="Dia",
+        yaxis_title="Total de vendas (R$)",
         xaxis=dict(tickangle=-45),
         barmode='group' 
     )

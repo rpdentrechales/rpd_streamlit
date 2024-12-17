@@ -43,7 +43,7 @@ if "id" in url_parameters:
 
     with graph_2:
       plot_total_sales(billcharges_vendedoras_df)
-      
+
     groupby_quote = billcharges_vendedoras_df.groupby(['quote_id','customer_id']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
     
     column_config ={
@@ -57,7 +57,10 @@ if "id" in url_parameters:
                     )
                   }
 
-    st.dataframe(groupby_quote,hide_index=True,use_container_width=True,column_config=column_config)
+    seletor_dia = st.selectbox("Selecione um dia", billcharges_vendedoras_df["date"].unique())
+    billcharges_vendedoras_df = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["date"] == seletor_dia]
+    colunas = ['quote_id','customer_id',"amount","avista"]
+    st.dataframe(billcharges_vendedoras_df[colunas],hide_index=True,use_container_width=True,column_config=column_config)
 
     error_page = False
 
