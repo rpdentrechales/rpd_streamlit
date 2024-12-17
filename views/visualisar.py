@@ -34,6 +34,8 @@ if "id" in url_parameters:
     billcharges_vendedoras_df["quote_id"] = billcharges_vendedoras_df["quote_id"].astype(str)
     billcharges_vendedoras_df["customer_id"] = billcharges_vendedoras_df["customer_id"].astype(str)
     
+    st.subheader("Resumo do Mês")
+
     seletor_mes = st.selectbox("Selecione um mês", billcharges_vendedoras_df["period"].unique())
     billcharges_vendedoras_df = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["period"] == seletor_mes]
 
@@ -57,6 +59,8 @@ if "id" in url_parameters:
                     format="R$%d",
                     )
                   }
+
+    st.subheader("Resumo do Dia")
 
     seletor_dia = st.selectbox("Selecione um dia", billcharges_vendedoras_df["formatted_date"].unique())
     
