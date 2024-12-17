@@ -34,7 +34,7 @@ if "id" in url_parameters:
 
     groupby_quote = billcharges_vendedoras_df.groupby(['quote_id','customer_id']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
     
-    st.dataframe(billcharges_vendedoras_df,hide_index=True,use_container_width=True)
+    st.write(billcharges_vendedoras_df.columns)
 
     column_config ={
                    "amount": st.column_config.NumberColumn(
