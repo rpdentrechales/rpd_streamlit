@@ -26,8 +26,11 @@ def plot_daily_sales_metrics(df):
     # Ensure 'date' is in datetime format
     df['date'] = pd.to_datetime(df['date'])
 
+    # Format date to show only dd/mm/yyyy
+    df['formatted_date'] = df['date'].dt.strftime('%d/%m/%Y')
+
     # Group data by 'date'
-    daily_metrics = df.groupby('date').agg(
+    daily_metrics = df.groupby('formatted_date').agg(
         sales_count=('quote_id', 'nunique'),
         total_sales=('amount', 'sum'),
         total_sales_avista=('avista', 'sum')
@@ -36,40 +39,53 @@ def plot_daily_sales_metrics(df):
     # Create the figure
     fig = go.Figure()
 
-    # Add sales_count as a bar chart
-    fig.add_trace(go.Bar(
-        x=daily_metrics['date'],
-        y=daily_metrics['sales_count'],
-        name='Sales Count',
-        marker_color='blue'
-    ))
-
-    # Add total_sales as a line
+    # Add total_sales as a line (left axis)
     fig.add_trace(go.Scatter(
-        x=daily_metrics['date'],
+        x=daily_metrics['formatted_date'],
         y=daily_metrics['total_sales'],
         mode='lines+markers',
         name='Total Sales',
         line=dict(color='green')
     ))
 
-    # Add total_sales_avista as a line
+    # Add total_sales_avista as a line (left axis)
     fig.add_trace(go.Scatter(
-        x=daily_metrics['date'],
+        x=daily_metrics['formatted_date'],
         y=daily_metrics['total_sales_avista'],
         mode='lines+markers',
         name='Total Sales Avista',
         line=dict(color='orange')
     ))
 
-    # Update layout for better visualization
+    # Add sales_count as bars (right axis)
+    fig.add_trace(go.Bar(
+        x=daily_metrics['formatted_date'],
+        y=daily_metrics['sales_count'],
+        name='Sales Count',
+        marker_color='blue',
+        yaxis='y2'  # Map to the secondary y-axis
+    ))
+
+    # Update layout to include a secondary y-axis
     fig.update_layout(
         title="Daily Sales Metrics",
         xaxis_title="Date",
-        yaxis_title="Values",
+        xaxis=dict(
+            type='category',  # Ensure dates appear as categorical labels
+            tickangle=-45     # Rotate labels for better readability
+        ),
+        yaxis=dict(
+            title="Total Sales and Total Sales Avista",
+            side="left"
+        ),
+        yaxis2=dict(
+            title="Sales Count",
+            overlaying="y",
+            side="right",
+            showgrid=False
+        ),
         barmode='group',
-        legend=dict(x=0, y=1.0),
-        xaxis=dict(type='category')
+        legend=dict(x=0, y=1.0)
     )
 
     # Display the chart in Streamlit
