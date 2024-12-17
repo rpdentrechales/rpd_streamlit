@@ -36,8 +36,14 @@ if "id" in url_parameters:
     seletor_mes = st.selectbox("Selecione um mês", billcharges_vendedoras_df["period"].unique())
     billcharges_vendedoras_df = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["period"] == seletor_mes]
 
-    plot_daily_sales_metrics(billcharges_vendedoras_df)
+    graph_1, graph_2 = st.columns(2)
 
+    with graph_1:
+      plot_sales_count(billcharges_vendedoras_df)
+
+    with graph_2:
+      plot_total_sales(billcharges_vendedoras_df)
+      
     groupby_quote = billcharges_vendedoras_df.groupby(['quote_id','customer_id']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
     
     column_config ={
