@@ -39,49 +39,45 @@ def plot_daily_sales_metrics(df):
     # Create the figure
     fig = go.Figure()
 
-    # Add total_sales as bars (left axis)
+    # Add total_sales as a bar
     fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
         y=daily_metrics['total_sales'],
         name='Total Sales',
-        marker_color='green',
-        yaxis='y'
+        marker_color='green'
     ))
 
-    # Add total_sales_avista as bars (left axis)
+    # Add total_sales_avista as a bar
     fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
         y=daily_metrics['total_sales_avista'],
         name='Total Sales Avista',
-        marker_color='orange',
-        yaxis='y'
+        marker_color='orange'
     ))
 
-    # Add sales_count as bars (right axis)
+    # Add sales_count as a bar, scaled for visibility
     fig.add_trace(go.Bar(
         x=daily_metrics['formatted_date'],
         y=daily_metrics['sales_count'],
         name='Sales Count',
-        marker_color='blue',
-        yaxis='y2'
+        marker_color='blue'
     ))
 
-    # Update layout for dual y-axis
+    # Update layout: same axis, dual labels for clarity
     fig.update_layout(
         title="Daily Sales Metrics",
         xaxis_title="Date",
-        xaxis=dict(type='category', tickangle=-45),
         yaxis=dict(
             title="Total Sales and Total Sales Avista",
-            side="left"
         ),
         yaxis2=dict(
             title="Sales Count",
             overlaying="y",
             side="right",
-            showgrid=False
+            showgrid=False,
+            range=[0, max(daily_metrics['sales_count'] * 1.1)]  # Scale for visibility
         ),
-        barmode='group',  # Group bars
+        barmode='group',  # Group bars side by side
         legend=dict(x=0, y=1.0)
     )
 
