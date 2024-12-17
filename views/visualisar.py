@@ -36,7 +36,18 @@ if "id" in url_parameters:
     
     st.dataframe(billcharges_vendedoras_df,hide_index=True,use_container_width=True)
 
-    st.dataframe(groupby_quote,hide_index=True,use_container_width=True)
+    column_config ={
+                   "amount": st.column_config.NumberColumn(
+                    "Valor Total",
+                    format="R$%d",
+                     ),
+                    "avista": st.column_config.NumberColumn(
+                    "Valor à Vista",
+                    format="R$%d",
+                    )
+                  }
+
+    st.dataframe(groupby_quote,hide_index=True,use_container_width=True,column_config=column_config)
 
     error_page = False
 
