@@ -59,9 +59,26 @@ if "id" in url_parameters:
                   }
 
     seletor_dia = st.selectbox("Selecione um dia", billcharges_vendedoras_df["formatted_date"].unique())
+    
+    resumo_1, resumo_2 = st.columns([3,1])
+
     billcharges_vendedoras_df_dia = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["formatted_date"] == seletor_dia]
     groupby_quote_dia = billcharges_vendedoras_df_dia.groupby(['quote_id','customer_id']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
-    st.dataframe(groupby_quote_dia,hide_index=True,use_container_width=True,column_config=column_config)
+    
+    with resumo_1:
+      
+      st.dataframe(groupby_quote_dia,hide_index=True,use_container_width=True,column_config=column_config)
+    
+    with resumo_2:
+      total_sales_dia = groupby_quote_dia["amount"].sum()
+      total_avista_dia = groupby_quote_dia["avista"].sum()
+      total_vendas_dia = groupby_quote_dia["quote_id"].count()
+
+      st.metric(label="Quantidade de vendas", value=total_vendas_dia)
+      st.metric(label="Vendas Total (R$)", value=f"R$ {total_sales_dia}")
+      st.metric(label="Vendas à vista (R$)", value=f"R$ {total_avista_dia}")
+      
+
 
     error_page = False
 
