@@ -58,8 +58,7 @@ if "id" in url_parameters:
                     )
                   }
 
-    sorted_dates = billcharges_vendedoras_df["formatted_date"].sort_values(ascending=False).dt.strftime("%d/%m/%Y").unique()
-    seletor_dia = st.selectbox("Selecione um dia", sorted_dates)
+    seletor_dia = st.selectbox("Selecione um dia", billcharges_vendedoras_df["formatted_date"].unique())
     
     resumo_1, resumo_2 = st.columns([3,1])
 
