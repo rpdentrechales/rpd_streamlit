@@ -78,7 +78,7 @@ if "id" in url_parameters:
 
     dias_seletor = billcharges_vendedoras_df["formatted_date"].sort_values(ascending=False).unique()
 
-    seletor_dia = st.selectbox("Selecione um dia", billcharges_vendedoras_df["formatted_date"].unique())
+    seletor_dia = st.selectbox("Selecione um dia", dias_seletor)
 
     resumo_1, resumo_2 = st.columns([3,1])
 
