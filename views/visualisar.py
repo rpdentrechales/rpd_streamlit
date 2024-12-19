@@ -74,16 +74,15 @@ if "id" in url_parameters:
                     )
                   }
 
-    st.subheader("Resumo do Dia - Sorted")
+    st.subheader("Resumo do Dia")
 
     dias_seletor = billcharges_vendedoras_df["formatted_date"].sort_values(ascending=False).unique()
-
     seletor_dia = st.selectbox("Selecione um dia", dias_seletor)
 
     resumo_1, resumo_2 = st.columns([3,1])
 
     billcharges_vendedoras_df_dia = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["formatted_date"] == seletor_dia]
-    groupby_quote_dia = billcharges_vendedoras_df_dia.groupby(['quote_id','customer_id']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
+    groupby_quote_dia = billcharges_vendedoras_df_dia.groupby(['quote_id','customer_id','customer_name','customer_email']).agg({'amount': 'sum', 'avista': 'sum'}).reset_index()
 
     with resumo_1:
 
