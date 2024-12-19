@@ -53,7 +53,6 @@ if "id" in url_parameters:
       total_vendas = billcharges_vendedoras_df["quote_id"].count()
       st.metric(label="Quantidade de Vendas", value=total_vendas)
 
-
     graph_1, graph_2 = st.columns(2)
 
     with graph_1:
@@ -76,6 +75,8 @@ if "id" in url_parameters:
                   }
 
     st.subheader("Resumo do Dia")
+
+    dias_seletor = billcharges_vendedoras_df["formatted_date"].sort_values(ascending=False).unique()
 
     seletor_dia = st.selectbox("Selecione um dia", billcharges_vendedoras_df["formatted_date"].unique())
 
