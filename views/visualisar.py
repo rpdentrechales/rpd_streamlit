@@ -74,7 +74,7 @@ if "id" in url_parameters:
                     )
                   }
 
-    st.subheader("Resumo do Dia")
+    st.subheader("Resumo do Dia - Sorted")
 
     dias_seletor = billcharges_vendedoras_df["formatted_date"].sort_values(ascending=False).unique()
 
