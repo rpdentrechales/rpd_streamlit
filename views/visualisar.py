@@ -28,8 +28,8 @@ if "id" in url_parameters:
     billcharges_vendedoras_df["due_at"] = pd.to_datetime(billcharges_vendedoras_df['due_at'], format="%Y-%m-%d %H:%M:%S").dt.strftime("%Y-%m-%d")
     billcharges_vendedoras_df['due_at'] = pd.to_datetime(billcharges_vendedoras_df['due_at'])
     billcharges_vendedoras_df['date'] = pd.to_datetime(billcharges_vendedoras_df['date'])
-    billcharges_vendedoras_df['formatted_date'] = billcharges_vendedoras_df['date'].dt.strftime('%d/%m/%Y')
-    billcharges_vendedoras_df['period'] = billcharges_vendedoras_df['date'].dt.strftime('%m/%Y')
+    billcharges_vendedoras_df['formatted_date'] = billcharges_vendedoras_df['date'].dt.to_period('D')
+    billcharges_vendedoras_df['period'] = billcharges_vendedoras_df['date'].dt.to_period('M')
     billcharges_vendedoras_df['avista'] = billcharges_vendedoras_df.apply(lambda row: row['amount'] if row['due_at'] == row['date'] else 0, axis=1)
 
     billcharges_vendedoras_df["quote_id"] = billcharges_vendedoras_df["quote_id"].astype(str)
@@ -37,7 +37,8 @@ if "id" in url_parameters:
 
     st.subheader("Resumo do Mês")
 
-    meses = sorted(billcharges_vendedoras_df["period"].unique(), reverse=True)
+    meses = sorted(billcharges_vendedoras_df["period"].unique(),reverse=True)
+    
     seletor_mes = st.selectbox("Selecione um mês", meses)
     billcharges_vendedoras_df = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["period"] == seletor_mes]
 
