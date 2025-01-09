@@ -21,6 +21,10 @@ if "id" in url_parameters:
 
     billcharges_vendedoras_df = get_dataframe_from_mongodb(collection_name="billcharges_db", database_name="dash_midia",query=query)
     
+    filtro_pagamento = ['Utilizar Crédito','Crédito Promocional','Vale Tratamento','Credito CRMBonus']
+
+    billcharges_vendedoras_df = billcharges_vendedoras_df.loc[~billcharges_vendedoras_df["payment_method"].isin(filtro_pagamento)]
+
     st.title("Visualizar Vendas")
     st.write(f"Olá, {nome_vendedora}")
 
