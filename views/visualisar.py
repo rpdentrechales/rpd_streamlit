@@ -34,8 +34,6 @@ if "id" in url_parameters:
     billcharges_vendedoras_df["quote_id"] = billcharges_vendedoras_df["quote_id"].astype(str)
     billcharges_vendedoras_df["customer_id"] = billcharges_vendedoras_df["customer_id"].astype(str)
 
-    st.dataframe(billcharges_vendedoras_df)
-
     st.subheader("Resumo do Mês")
 
     seletor_mes = st.selectbox("Selecione um mês", billcharges_vendedoras_df["period"].unique())
