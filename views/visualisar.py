@@ -23,7 +23,7 @@ if "id" in url_parameters:
     st.title("Visualizar Vendas")
     st.write(f"Olá, {nome_vendedora}")
 
-    billcharges_vendedoras_df["amount"] = billcharges_vendedoras_df["amount"]/10
+    billcharges_vendedoras_df["amount"] = billcharges_vendedoras_df["amount"]/100
     billcharges_vendedoras_df["due_at"] = pd.to_datetime(billcharges_vendedoras_df['due_at'], format="%Y-%m-%d %H:%M:%S").dt.strftime("%Y-%m-%d")
     billcharges_vendedoras_df['due_at'] = pd.to_datetime(billcharges_vendedoras_df['due_at'])
     billcharges_vendedoras_df['date'] = pd.to_datetime(billcharges_vendedoras_df['date'])
@@ -33,6 +33,8 @@ if "id" in url_parameters:
 
     billcharges_vendedoras_df["quote_id"] = billcharges_vendedoras_df["quote_id"].astype(str)
     billcharges_vendedoras_df["customer_id"] = billcharges_vendedoras_df["customer_id"].astype(str)
+
+    st.dataframe(billcharges_vendedoras_df)
 
     st.subheader("Resumo do Mês")
 
@@ -44,7 +46,7 @@ if "id" in url_parameters:
     with metrica_mes_1:
       total_sales = billcharges_vendedoras_df["amount"].sum()
       st.metric(label="Total de Vendas", value=f"R$ {total_sales:,.2f}")
-    
+
     with metrica_mes_2:
       total_avista = billcharges_vendedoras_df["avista"].sum()
       st.metric(label="Total de Vendas à Vista", value=f"R$ {total_avista:,.2f}")
@@ -96,8 +98,6 @@ if "id" in url_parameters:
       st.metric(label="Quantidade de vendas", value=total_vendas_dia)
       st.metric(label="Vendas Total (R$)", value=f"R$ {total_sales_dia:,.2f}")
       st.metric(label="Vendas à vista (R$)", value=f"R$ {total_avista_dia:,.2f}")
-
-
 
     error_page = False
 
