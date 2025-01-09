@@ -20,6 +20,7 @@ if "id" in url_parameters:
     query = {"created_by": nome_vendedora}
 
     billcharges_vendedoras_df = get_dataframe_from_mongodb(collection_name="billcharges_db", database_name="dash_midia",query=query)
+    
     st.title("Visualizar Vendas")
     st.write(f"Olá, {nome_vendedora}")
 
@@ -36,7 +37,7 @@ if "id" in url_parameters:
 
     st.subheader("Resumo do Mês")
 
-    seletor_mes = st.selectbox("Selecione um mês", billcharges_vendedoras_df["period"].unique())
+    seletor_mes = st.selectbox("Selecione um mês", sorted(billcharges_vendedoras_df["period"].unique()))
     billcharges_vendedoras_df = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["period"] == seletor_mes]
 
     metrica_mes_1,metrica_mes_2,metrica_mes_3 = st.columns(3)
