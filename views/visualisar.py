@@ -20,10 +20,12 @@ if "id" in url_parameters:
     query = {"created_by": nome_vendedora,"status":"completed"}
 
     billcharges_vendedoras_df = get_dataframe_from_mongodb(collection_name="billcharges_db", database_name="dash_midia",query=query)
-    
-    filtro_pagamento = ['Utilizar Crédito','Crédito Promocional','Vale Tratamento','Credito CRMBonus']
 
+    filtro_pagamento = ['Utilizar Crédito','Crédito Promocional','Vale Tratamento','Credito CRMBonus']
     billcharges_vendedoras_df = billcharges_vendedoras_df.loc[~billcharges_vendedoras_df["payment_method"].isin(filtro_pagamento)]
+
+    filtro_avista = ['PIX','Cartão de Crédito à Vista','Dinheiro','Cartão de Crédito Vindi à Vista',
+       'Cartão de Crédito à Vista (Link)', 'Transferência Bancária']
 
     st.title("Visualizar Vendas")
     st.write(f"Olá, {nome_vendedora}")
@@ -34,7 +36,7 @@ if "id" in url_parameters:
     billcharges_vendedoras_df['date'] = pd.to_datetime(billcharges_vendedoras_df['date'])
     billcharges_vendedoras_df['formatted_date'] = billcharges_vendedoras_df['date'].dt.to_period('D')
     billcharges_vendedoras_df['period'] = billcharges_vendedoras_df['date'].dt.to_period('M')
-    billcharges_vendedoras_df['avista'] = billcharges_vendedoras_df.apply(lambda row: row['amount'] if row['due_at'] == row['date'] else 0, axis=1)
+    billcharges_vendedoras_df['avista'] = billcharges_vendedoras_df.apply(lambda row: row['amount'] if row['payment_method'].isin(filtro_avista) else 0, axis=1)
 
     billcharges_vendedoras_df["quote_id"] = billcharges_vendedoras_df["quote_id"].astype(str)
     billcharges_vendedoras_df["customer_id"] = billcharges_vendedoras_df["customer_id"].astype(str)
@@ -42,7 +44,7 @@ if "id" in url_parameters:
     st.subheader("Resumo do Mês")
 
     meses = sorted(billcharges_vendedoras_df["period"].unique(),reverse=True)
-    
+
     seletor_mes = st.selectbox("Selecione um mês", meses)
     billcharges_vendedoras_df = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["period"] == seletor_mes]
 
