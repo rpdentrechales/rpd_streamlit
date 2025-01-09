@@ -37,7 +37,8 @@ if "id" in url_parameters:
 
     st.subheader("Resumo do Mês")
 
-    seletor_mes = st.selectbox("Selecione um mês", sorted(billcharges_vendedoras_df["period"].unique()), reverse=True)
+    meses = sorted(billcharges_vendedoras_df["period"].unique(), reverse=True)
+    seletor_mes = st.selectbox("Selecione um mês", meses)
     billcharges_vendedoras_df = billcharges_vendedoras_df.loc[billcharges_vendedoras_df["period"] == seletor_mes]
 
     metrica_mes_1,metrica_mes_2,metrica_mes_3 = st.columns(3)
