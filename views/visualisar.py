@@ -36,7 +36,7 @@ if "id" in url_parameters:
     billcharges_vendedoras_df['date'] = pd.to_datetime(billcharges_vendedoras_df['date'])
     billcharges_vendedoras_df['formatted_date'] = billcharges_vendedoras_df['date'].dt.to_period('D')
     billcharges_vendedoras_df['period'] = billcharges_vendedoras_df['date'].dt.to_period('M')
-    billcharges_vendedoras_df['avista'] = billcharges_vendedoras_df.apply(lambda row: row['amount'] if row['payment_method'].isin(filtro_avista) else 0, axis=1)
+    billcharges_vendedoras_df['avista'] = billcharges_vendedoras_df.apply(lambda row: row['amount'] if row['payment_method'] in filtro_avista else 0, axis=1)
 
     billcharges_vendedoras_df["quote_id"] = billcharges_vendedoras_df["quote_id"].astype(str)
     billcharges_vendedoras_df["customer_id"] = billcharges_vendedoras_df["customer_id"].astype(str)
