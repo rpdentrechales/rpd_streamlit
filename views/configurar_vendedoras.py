@@ -9,7 +9,7 @@ st.title("Testes - Link das vendedoras")
 
 vendedoras_df = get_dataframe_from_mongodb(collection_name="dados_vendedoras", database_name="rpd_db")
 
-nome_das_vendedoras = vendedoras_df["nome_vendedora"].unique()
+nome_das_vendedoras = sorted(vendedoras_df["nome_vendedora"].unique())
 
 vendedora_selecionada = st.selectbox("Selecione uma Vendedora", nome_das_vendedoras)
 
