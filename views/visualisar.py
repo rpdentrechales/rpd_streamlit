@@ -28,7 +28,7 @@ if "id" in url_parameters:
        'Cartão de Crédito à Vista (Link)', 'Transferência Bancária']
 
     st.title("Visualizar Vendas")
-    st.write(f"Olá, {nome_vendedora}")
+    st.write(f"Oi, {nome_vendedora}")
 
     billcharges_vendedoras_df["amount"] = billcharges_vendedoras_df["amount"]/100
     billcharges_vendedoras_df["due_at"] = pd.to_datetime(billcharges_vendedoras_df['due_at'], format="%Y-%m-%d %H:%M:%S").dt.strftime("%Y-%m-%d")
