@@ -68,11 +68,11 @@ if "id" in url_parameters:
     column_config ={
                    "amount": st.column_config.NumberColumn(
                     "Valor Total",
-                    format="R$%d",
+                    format="R$%.f",
                      ),
                     "avista": st.column_config.NumberColumn(
                     "Valor à Vista",
-                    format="R$%d",
+                    format="R$%.f",
                     )
                   }
 
